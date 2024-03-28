@@ -1,5 +1,6 @@
 import json,sys
-
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning)
 import pandas as pd
 from evidently.model_profile import Profile
 from evidently.model_profile.sections import DataDriftProfileSection
@@ -24,7 +25,7 @@ class DataValidation:
         try:
             self.data_ingestion_artifact = data_ingestion_artifact
             self.data_validation_config = data_validation_config
-            self.__schema_config = read_yaml_file(filepath=SCHEMA_FILE_PATH)
+            self.__schema_config = read_yaml_file(file_path=SCHEMA_FILE_PATH)
         except Exception as e:
             raise USVisaException(e,sys)
         
