@@ -25,7 +25,7 @@ class DataValidation:
         try:
             self.data_ingestion_artifact = data_ingestion_artifact
             self.data_validation_config = data_validation_config
-            self.__schema_config = read_yaml_file(file_path=SCHEMA_FILE_PATH)
+            self._schema_config = read_yaml_file(file_path=SCHEMA_FILE_PATH)
         except Exception as e:
             raise USVisaException(e,sys)
         
@@ -38,7 +38,7 @@ class DataValidation:
         On Failue : Write an exception log and then raise an exception
         """
         try:
-            status = len(dataframe.columns) == len(self.__schema_config["columns"])
+            status = len(dataframe.columns) == len(self._schema_config["columns"])
             logging.info(f"Is required columns present: [{status}]")
             return status
         except Exception as e:
@@ -56,14 +56,14 @@ class DataValidation:
             dataframe_columns = df.columns
             missing_numerical_columns = []
             missing_categorical_columns = []
-            for column in self.__schema_config["numerical_columns"]:
+            for column in self._schema_config["numerical_columns"]:
                 if column not in dataframe_columns:
                     missing_numerical_columns.append(column)
 
             if len(missing_numerical_columns)>0:
                 logging.info(f"Missing numerical columns: {missing_numerical_columns}")
 
-            for column in self.__schema_config["categorical_columns"]:
+            for column in self._schema_config["categorical_columns"]:
                 if column not in dataframe_columns:
                     missing_categorical_columns.append(column)
 
